@@ -12,8 +12,8 @@ $(document).ready(function () {
   //var frequencyData = new Uint8Array(analyser.frequencyBinCount);
   var frequencyData = new Uint8Array(200);
 
-  var svgHeight = '300';
-  var svgWidth = '1200';
+  var svgHeight = window.innerHeight;
+  var svgWidth = window.innerWidth;
   var barPadding = '1';
 
   function createSvg(parent, height, width) {
@@ -23,11 +23,11 @@ $(document).ready(function () {
   var svg = createSvg('body', svgHeight, svgWidth);
 
   // Create our initial D3 chart.
-  svg.selectAll('rect')
+  svg.selectAll('circle')
      .data(frequencyData)
      .enter()
-     .append('rect')
-     .attr('x', function (d, i) {
+     .append('circle')
+     .attr('cx', function (d, i) {
         return i * (svgWidth / frequencyData.length);
      })
      .attr('width', svgWidth / frequencyData.length - barPadding);
@@ -40,20 +40,20 @@ $(document).ready(function () {
      analyser.getByteFrequencyData(frequencyData);
 
      // Update d3 chart with new data.
-     svg.selectAll('rect')
+     svg.selectAll('circle')
         .data(frequencyData)
-        .attr('y', function(d) {
+        .attr('cy', function(d) {
            return svgHeight - d;
         })
-        .attr('height', function(d) {
+        .attr('r', function(d) {
            return d;
         })
         .attr('fill', function(d) {
-           return 'rgb(0, 0, ' + d + ')';
+           return 'rgb( 0, ' + d + ', 0)';
         });
   }
 
   // Run the loop
   renderChart();
-
 });
+
